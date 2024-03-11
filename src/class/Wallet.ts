@@ -30,15 +30,27 @@ export class Wallet {
     return bip39.validateMnemonic(seedPhrase);
   }
 
-  public getKeyPair() {
+  public getKeyPair(): ECPairInterface {
     return this._keyPair;
   }
 
-  public getAddress() {
+  public getAddress(): string {
     const { address } = bitcoin.payments.p2pkh({
       pubkey: this._keyPair.publicKey,
     });
-    return address;
+    return address || "";
+  }
+
+  public getExtendedPublicKey(): string {
+    return this._root.neutered().toBase58();
+  }
+
+  public getSeed(): string {
+    return this._seed.toString("hex");
+  }
+
+  public getPrivateKey(): string {
+    return this._keyPair.privateKey?.toString("hex") || "";
   }
 
   public async getBalance(): Promise<any> {
