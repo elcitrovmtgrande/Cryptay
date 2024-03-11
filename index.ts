@@ -1,11 +1,11 @@
-import ECPairFactory from "ecpair";
-import * as ecc from "tiny-secp256k1";
-import * as bitcoin from "bitcoinjs-lib";
+import { Wallet } from "./src/class";
+import Blockchain from "./src/class/Blockchain";
 
 (async () => {
-  const ECPair = ECPairFactory(ecc);
-  const keyPair = ECPair.makeRandom();
-  const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
-
-  console.log("address:", address);
+  const wallet = new Wallet();
+  console.log("address:", wallet.getAddress());
+  console.log("seedPhrase:", Wallet.generateSeedWords());
+  const balance = await wallet.getBalance();
+  console.log("balance:", balance);
+  );
 })();
